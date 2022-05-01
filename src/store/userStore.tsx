@@ -75,10 +75,12 @@ class Auth {
 
   @action
   locationEnabled() {
+    console.log("full set")
     this.allowedLocation = true
   }
   @action
   locationEnabledTemp() {
+    console.log("temp set")
     this.allowedLocationTemp = true
   }
 

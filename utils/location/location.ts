@@ -5,6 +5,7 @@ import { Tlocation } from "../../globlalTypes";
 import authStore from "../../src/store/userStore";
 import Permissions, { PERMISSIONS, RESULTS } from 'react-native-permissions'
 import { useFocusEffect } from "@react-navigation/native";
+import { observer } from "mobx-react";
 type TgetOneTimeLocationParams = {
     setState: React.Dispatch<React.SetStateAction<Tlocation>>
     setError: React.Dispatch<React.SetStateAction<string>>
@@ -14,7 +15,7 @@ interface TsubscribeLocationLocation extends TgetOneTimeLocationParams {
     setWatchId: React.Dispatch<React.SetStateAction<number>>
 }
 
-export const getOneTimeLocation = async ({ setState, setError }: TgetOneTimeLocationParams) => {
+export const getOneTimeLocation =  async ({ setState, setError }: TgetOneTimeLocationParams) => {
 
     const location = {
         lat: 0,
@@ -56,8 +57,7 @@ export const getOneTimeLocation = async ({ setState, setError }: TgetOneTimeLoca
             maximumAge: 1000
         },
     );
-};
-
+}
 export const subscribeLocationLocation = async ({ setState, setError, setWatchId }: TsubscribeLocationLocation) => {
     const location = {
         lat: 0,
