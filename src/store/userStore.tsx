@@ -21,6 +21,8 @@ class Auth {
   @persist @observable logoutToken = '';
   @persist @observable name = '';
   @persist @observable hasObBoarded = false;
+  @persist @observable allowedLocation = false;
+  @observable allowedLocationTemp = false;
 
 
 
@@ -69,6 +71,15 @@ class Auth {
   @action
   setLogoutToken(token: string) {
     this.logoutToken = token
+  }
+
+  @action
+  locationEnabled() {
+    this.allowedLocation = true
+  }
+  @action
+  locationEnabledTemp() {
+    this.allowedLocationTemp = true
   }
 
 

@@ -7,7 +7,7 @@ import { ICONS } from '../../../public/images/icon'
 import { Tlocation, Tmonster } from '../../../globlalTypes'
 import { generateMonster } from '../../../utils/monsters/monsterGenerator'
 import MonsterCard from '../../components/atoms/MonsterCard/MonsterCard'
-import { getOneTimeLocation } from '../../../utils/location/location'
+import { getOneTimeLocation, useLocation } from '../../../utils/location/location'
 import PopIn from '../../components/atoms/PopIn'
 import { getMacdonals } from '../../../utils/places'
 import { TouchableOpacity } from 'react-native-gesture-handler'
@@ -19,13 +19,15 @@ import { useRoute } from '@react-navigation/native'
 
 
 const MapScreen = () => {
-  const [userLoaction, setUserLoaction] = React.useState<Tlocation>({ lat: 0, lng: 0 })
+  const [userLocation] = useLocation()
+
   const [mapLocation,setMapLocation] = React.useState<Tlocation>({ lat: 0, lng: 0 })
   const [searchLocation,setSearchLocation] = React.useState<Tlocation>({ lat: 0, lng: 0 })
   const [mapLoaded,setMapLoaded] = React.useState(true)
   const [loading, setLoading] = React.useState(false)
   const [error, setError] = React.useState('')
   const [monsters, setMonsters] = React.useState<Tmonster[]>([])
+
 
   const [showCard, setShowCard] = React.useState(false)
   const [monsterId, setMonsterId] = React.useState('')
@@ -52,25 +54,12 @@ const MapScreen = () => {
   }
 
   const onRelocate = ()=>{
-    setMapLocation(userLoaction)
+    setMapLocation(userLocation)
   }
 
 
 
   
-
-  //Get Geo Loacation
-  React.useEffect(() => {
-
-    if (Platform.OS === 'ios') {
-      getOneTimeLocation({ setState: setUserLoaction, setError: setError })
-     
-    }
-     else {
-    }
-
-
-  }, [])
 
   //Handle Locate from another screen
   React.useEffect(()=>{
@@ -84,7 +73,6 @@ const MapScreen = () => {
       else{
         getOneTimeLocation({ setState: setMapLocation, setError: setError })
       }
-      
   }
   },[mapLoaded,params])
 
@@ -92,8 +80,10 @@ const MapScreen = () => {
 
   
 React.useEffect(() => {
-  if (userLoaction.lng != 0) {
-    getMacdonals(userLoaction)
+
+  console.log("Refresh", userLocation);
+  if (userLocation.lng != 0) {
+    getMacdonals(userLocation)
       .then((r) => {
         const monsters = r.map((place) => {
           const monster = generateMonster(place.place_id, place.rating)
@@ -105,9 +95,10 @@ React.useEffect(() => {
         setMonsters(monsters)
       })
   }
-}, [userLoaction])
+}, [userLocation])
 
 React.useEffect(() => {
+  console.log("Map User Location",userLocation)
   if (searchLocation.lng != 0) {
 
     getMacdonals(searchLocation)
@@ -138,7 +129,6 @@ return (
         longitudeDelta: 0.0121,
         
       }}
-      on
       customMapStyle={MAP_STYLE}
       onMapReady={()=>{setMapLoaded(true)}}
     >
@@ -146,8 +136,8 @@ return (
  
       <Marker
         coordinate={{
-          latitude: userLoaction.lat,
-          longitude: userLoaction.lng,
+          latitude: userLocation.lat,
+          longitude: userLocation.lng,
         }}
         title="You are here"
         image={ICONS.sword.icon}

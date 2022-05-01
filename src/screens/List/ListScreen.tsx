@@ -15,12 +15,13 @@ import { OutlineButton } from '../../components/atoms/Button'
 const ListScreen = () => {
     const [monsters, setMonsters] = React.useState([])
 
-    // const [userLocation, setUserLoaction] = React.useState<{ lat: number, lng: number }>({ lat: 0, lng: 0 })
     const [loading, setLoading] = React.useState(false)    
-    const {error,userLocation} = useLocation()
+    const [userLocation,error] = useLocation()
+    const [refresh,setRefresh] = React.useState(false);
 
     React.useEffect(() => {
         setLoading(true)
+        console.log("User Location : LIST",userLocation)
 
         if (userLocation.lng != 0) {
             getMacdonals(userLocation)
@@ -38,7 +39,7 @@ const ListScreen = () => {
                 })
         }
         setLoading(false)
-    }, [userLocation])
+    }, [userLocation,refresh])
 
     return (
         <Wrapper>
@@ -52,7 +53,7 @@ const ListScreen = () => {
                         </View>
                         :
 
-                        error.length != 0 ?
+                        error.length != 0 && refresh ?
 
                             <View style={{ flex: 1, justifyContent: "center", alignSelf: "center" }}>
                                 <H3 fontStyle={{ color: "red", textAlign: "center" }} text={error} />
@@ -66,6 +67,11 @@ const ListScreen = () => {
                             monsters.length == 0 ?
                                 <View style={{ flex: 1, justifyContent: "center", alignSelf: "center" }}>
                                     <H5 fontStyle={{ color: COLORS.secondaryLight, textAlign: "center" }} text={"No Mc Monster Near you"} />
+                                    <TouchableOpacity onPress={() => { setRefresh(true) }} style={{ marginTop: 10 }}>
+                                    <OutlineButton>
+                                        <H5 fontStyle={{ color: COLORS.secondaryLight, textAlign: "center" }} text={"Refresh"} />
+                                    </OutlineButton>
+                                </TouchableOpacity>
                                 </View>
                                 :
                                 <FlatList
