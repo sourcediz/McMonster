@@ -46,6 +46,7 @@ const App = () => {
             <CustomStatusBar isDarkMode={isDarkMode} />
             <View style={[{flex : 1},backgroundStyle]}>
             <ScreenProvider baseFontSize={16} >
+              <LoginScreen />
         </ScreenProvider>
       </View>
     </SafeAreaProvider>
