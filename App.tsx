@@ -22,6 +22,7 @@ import { ScreenProvider } from 'responsive-native';
 import { H1 } from './src/components/fonts';
 import { COLORS } from './src/lib/colors';
 import LoginScreen from './src/screens/Login/LoginScreen';
+import setDefaults from './utils/setDefaults';
 
 const CustomStatusBar : React.FC<{isDarkMode : boolean}> = ({isDarkMode}) => {
   const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
@@ -35,6 +36,7 @@ const CustomStatusBar : React.FC<{isDarkMode : boolean}> = ({isDarkMode}) => {
 };
 
 const App = () => {
+
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -45,9 +47,9 @@ const App = () => {
     <SafeAreaProvider style={{ flex: 1 }}>
             <CustomStatusBar isDarkMode={isDarkMode} />
             <View style={[{flex : 1},backgroundStyle]}>
-            <ScreenProvider baseFontSize={16} >
+            <ScreenProvider baseFontSize={16}  >
               <LoginScreen />
-        </ScreenProvider>
+        </ScreenProvider> 
       </View>
     </SafeAreaProvider>
 

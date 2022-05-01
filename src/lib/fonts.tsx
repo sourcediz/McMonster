@@ -1,6 +1,7 @@
 import { View, Text, StyleProp, TextStyle } from 'react-native'
 import React from 'react'
 import { useRem } from 'responsive-native'
+import { COLORS } from './colors'
 
 type fontProps = {
   text : string,
@@ -15,14 +16,17 @@ interface TpresetFontProps extends fontProps {
 const PresetFont : React.FC<TpresetFontProps> = ({text,fontStyle,remSize})  =>{
   const rem = useRem()
   return (
-     <Text style={[fontStyle,{fontSize : rem(remSize,true)}]}>{text}</Text>
+     <Text style={[{color : "#fff"},fontStyle,{fontSize : rem(remSize,true)}]}>{text}</Text>
   )
 }
+
+
+
 
 export const Header : React.FC<TpresetFontProps> = ({text,fontStyle,remSize}) =>{
   const rem = useRem()
   return (
-    <PresetFont text={text} fontStyle={[fontStyle, {fontWeight : "500",marginBottom : rem(0.5,true)}]} remSize={remSize}/>
+    <PresetFont text={text} fontStyle={[{fontWeight : "500",marginBottom : rem(0.5,true)},fontStyle]} remSize={remSize}/>
   )
 }
 
@@ -61,3 +65,10 @@ export const H6 : React.FC<fontProps> = ({text,fontStyle}) =>{
     <Header text={text} fontStyle={fontStyle} remSize={1}/>
   )
 }
+
+const Bubble : StyleProp<TextStyle> = {
+  fontWeight : "800"}
+
+  export const FONTS = {
+    Bubble
+  }
