@@ -7,23 +7,30 @@ import MapScreen from '../screens/Map/MapScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from '../screens/Login/LoginScreen';
 import Signup from '../screens/Signup/SignupScreen';
+import { COLORS } from '../lib/colors';
 
 //create root stack and show tabnavigator if authenticated
-const RootStack = createStackNavigator();
+const Root = createStackNavigator();
 
 export const RootNavigator = () =>{
     const isAuth = true; //temp auth flag
     return(
-        <RootStack.Navigator 
+        <Root.Navigator 
+        
     screenOptions={{
-        headerShown : false
+        cardStyle : {
+            backgroundColor : COLORS.main 
+            },
+        headerShown : false,
+        
     }} >
         {isAuth ? (
-            <RootStack.Screen name="TabNavigator" component={TabNavigator} />
+            <Root.Screen name="app" component={TabNavigator} />
         ) : (
-            <RootStack.Screen name="Login" component={LoginScreen} />
+            <Root.Screen name="auth" component={AuthNavigator} />
         )}
-      </RootStack.Navigator>
+
+      </Root.Navigator>
     )
 }
 
@@ -32,11 +39,16 @@ const AuthStack = createStackNavigator();
 export const AuthNavigator = () =>{
     return(
         <AuthStack.Navigator 
-    screenOptions={{
-        headerShown : false
-    }} >
-        <AuthStack.Screen name="Login" component={LoginScreen} />
-        <AuthStack.Screen name="Signup" component={Signup} />
+         
+        screenOptions={{
+            cardStyle : {
+                backgroundColor : COLORS.main 
+                },
+            headerShown : false,
+            
+        }}>
+        <AuthStack.Screen name="login" component={LoginScreen} />
+        <AuthStack.Screen name="signup" component={Signup} />
       </AuthStack.Navigator>
     )
 }
@@ -47,9 +59,11 @@ const TabStack = createBottomTabNavigator();
 export const TabNavigator = ()=> {
   return (
     <TabStack.Navigator 
+         
     screenOptions={{
-        headerShown : false
-    }} >
+        headerShown : false,
+        
+    }}>
         <TabStack.Screen name="monsters" component={ListScreen} />
         <TabStack.Screen name="map" component={MapScreen} />
       </TabStack.Navigator>

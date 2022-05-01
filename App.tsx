@@ -21,7 +21,7 @@ import {
 import { ScreenProvider } from 'responsive-native';
 import { COLORS } from './src/lib/colors';
 import { NavigationContainer } from '@react-navigation/native';
-import { TabNavigator } from './src/navigation/RootNavigator';
+import { RootNavigator, TabNavigator } from './src/navigation/RootNavigator';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const CustomStatusBar : React.FC<{isDarkMode : boolean}> = ({isDarkMode}) => {
@@ -44,18 +44,16 @@ const App = () => {
   };
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
     <SafeAreaProvider style={{ flex: 1 }}>
             <CustomStatusBar isDarkMode={isDarkMode} />
             <View style={[{flex : 1},backgroundStyle]}>
             <ScreenProvider baseFontSize={16}  >
-              <NavigationContainer>
-                <TabNavigator/>
+      <NavigationContainer >
+                <RootNavigator  />
               </NavigationContainer>
         </ScreenProvider> 
       </View>
     </SafeAreaProvider>
-    </GestureHandlerRootView>
   );
 };
 
