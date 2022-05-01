@@ -8,6 +8,8 @@ import { FONTS, H1, H4, H6 } from '../../../lib/fonts'
 import Icon from 'react-native-vector-icons/Ionicons';
 import { convertThousands } from '../../../../utils/monsters/units'
 import { SolidButton } from '../Button'
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import { useNavigation } from '@react-navigation/native'
 
 type TmonsterCardProps = {
     monster: Tmonster
@@ -15,6 +17,12 @@ type TmonsterCardProps = {
 
 
 const MonsterCard: React.FC<TmonsterCardProps> = ({ monster }) => {
+    const navigation = useNavigation()
+
+    const onViewHandler = ()=>{
+        navigation.navigate("singleView", {monster})
+    }
+    
     return (
         <View style={styles.card}>
             <View style={[LAYOUT.rowAlignCenterBetween]}>
@@ -47,9 +55,12 @@ const MonsterCard: React.FC<TmonsterCardProps> = ({ monster }) => {
 
                     <View style={[LAYOUT.rowAlignCenterBetween, {marginTop : 10}]}>
                         <View style={styles.buttonContainer}>
+                            <TouchableOpacity onPress={onViewHandler}>
                             <SolidButton buttonStyle={styles.buttonStyle}>
                                 <Text style={styles.buttonText}>View</Text>
                             </SolidButton>
+                            </TouchableOpacity>
+                           
                         </View>
                         <View style={styles.buttonContainer}>
                             <SolidButton buttonStyle={styles.buttonStyle}>

@@ -17,6 +17,7 @@ const MapScreen = () => {
   const [showCard,setShowCard] = React.useState(false)
   const [monsterId,setMonsterId] = React.useState('')
   const [selectedMonster,setSelectedMonster] = React.useState<Tmonster | null>(null)
+
   const onMarkerPress =(monster : Tmonster)=>{
     setMonsterId(monster.id)
     //first time selecting a monster
@@ -84,6 +85,7 @@ const MapScreen = () => {
                   const monsters = r.map((place) => {
                       const monster = generateMonster(place.place_id, place.rating)
                       monster.location = place.geometry.location
+                      monster.address = place.vicinity
                       return monster
                   })
 

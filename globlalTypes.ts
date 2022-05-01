@@ -13,4 +13,5 @@ export type Tmonster = {
     defense : number
     speed : string,
     location : location
+    address : string
 }

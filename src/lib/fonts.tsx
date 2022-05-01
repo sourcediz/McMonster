@@ -70,6 +70,9 @@ export const H6 : React.FC<fontProps> = ({text,fontStyle}) =>{
 const Bubble : StyleProp<TextStyle> = {
   fontWeight : "800"}
 
+  const Italic : StyleProp<TextStyle> = {
+    fontStyle : "italic"}
   export const FONTS = {
-    Bubble
+    Bubble,
+    Italic
   }

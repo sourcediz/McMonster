@@ -8,6 +8,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from '../screens/Login/LoginScreen';
 import Signup from '../screens/Signup/SignupScreen';
 import { COLORS } from '../lib/colors';
+import SingleView from '../screens/SingleView/SingleView';
 
 //create root stack and show tabnavigator if authenticated
 const Root = createStackNavigator();
@@ -25,8 +26,17 @@ export const RootNavigator = () =>{
         
     }} >
         {isAuth ? (
+            <>
             <Root.Screen name="app" component={TabNavigator} />
+            {/* make modal group */}
+     
+
+            <Root.Group screenOptions={{ presentation: 'modal' }} >
+                <Root.Screen name="singleView" component={SingleView} />
+            </Root.Group>
+            </>
         ) : (
+            
             <Root.Screen name="auth" component={AuthNavigator} />
         )}
 
