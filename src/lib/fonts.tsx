@@ -6,6 +6,7 @@ import { COLORS } from './colors'
 type fontProps = {
   text : string,
   fontStyle? : StyleProp<TextStyle>
+  isButton? : boolean
 }
 
 
@@ -26,7 +27,7 @@ const PresetFont : React.FC<TpresetFontProps> = ({text,fontStyle,remSize})  =>{
 export const Header : React.FC<TpresetFontProps> = ({text,fontStyle,remSize}) =>{
   const rem = useRem()
   return (
-    <PresetFont text={text} fontStyle={[{fontWeight : "500",marginBottom : rem(0.5,true)},fontStyle]} remSize={remSize}/>
+    <PresetFont text={text} fontStyle={[{fontWeight : "500"},fontStyle]} remSize={remSize}/>
   )
 }
 
