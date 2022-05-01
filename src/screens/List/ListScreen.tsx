@@ -88,7 +88,7 @@ const ListScreen = () => {
                                 <FlatList
                                     data={monsters}
                                     renderItem={({ item }) => <View style={{ paddingBottom: 20 }}><MonsterCard monster={item} /></View>}
-                                    keyExtractor={(item) => item.name}
+                                    keyExtractor={(item) => item.id}
                                 />
 
                 }

@@ -61,8 +61,6 @@ export const generateMonster = (monsterId: string,rating : number) => {
         }
     }
 
-    console.log("MONSTER STATS :",monsterStats)
-    console.log("rating :",rating)
     return{
         id : monsterId,
         name : MonsterNames[monsterStats[0] - 1],

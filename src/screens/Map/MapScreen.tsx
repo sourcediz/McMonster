@@ -21,7 +21,8 @@ import { useRoute } from '@react-navigation/native'
 const MapScreen = () => {
   const [userLoaction, setUserLoaction] = React.useState<Tlocation>({ lat: 0, lng: 0 })
   const [mapLocation,setMapLocation] = React.useState<Tlocation>({ lat: 0, lng: 0 })
-
+  const [searchLocation,setSearchLocation] = React.useState<Tlocation>({ lat: 0, lng: 0 })
+  const [mapLoaded,setMapLoaded] = React.useState(true)
   const [loading, setLoading] = React.useState(false)
   const [error, setError] = React.useState('')
   const [monsters, setMonsters] = React.useState<Tmonster[]>([])
@@ -54,33 +55,38 @@ const MapScreen = () => {
     setMapLocation(userLoaction)
   }
 
-  const onLocate = ({lat, lng}: Tlocation) =>{
-      setMapLocation({lat,lng})
-  }
+
+
+  
 
   //Get Geo Loacation
   React.useEffect(() => {
-    console.log(userLoaction)
 
     if (Platform.OS === 'ios') {
       getOneTimeLocation({ setState: setUserLoaction, setError: setError })
-      getOneTimeLocation({ setState: setMapLocation, setError: setError })
+     
     }
      else {
     }
 
-   
-  
 
   }, [])
 
+  //Handle Locate from another screen
   React.useEffect(()=>{
-    if(params?.monster){
-      setMapLocation(params.monster.location)
-      setMonsterId(params.monster.id)
-      onMarkerPress(params.monster)
-    }
-  },[params])
+    if(mapLoaded){
+      if(params?.monster ){
+        console.log("setting cords",params.monster.location)
+        setMapLocation(params.monster.location)
+        setMonsterId(params.monster.id)
+        onMarkerPress(params.monster)
+      }
+      else{
+        getOneTimeLocation({ setState: setMapLocation, setError: setError })
+      }
+      
+  }
+  },[mapLoaded,params])
 
  
 
@@ -101,6 +107,23 @@ React.useEffect(() => {
   }
 }, [userLoaction])
 
+React.useEffect(() => {
+  if (searchLocation.lng != 0) {
+
+    getMacdonals(searchLocation)
+      .then((r) => {
+        const monsters = r.map((place) => {
+          const monster = generateMonster(place.place_id, place.rating)
+          monster.location = place.geometry.location
+          monster.address = place.vicinity
+          return monster
+        })
+
+        setMonsters(monsters)
+      })
+  }
+}, [searchLocation])
+
 return (
   <View style={styles.container}>
  
@@ -115,7 +138,9 @@ return (
         longitudeDelta: 0.0121,
         
       }}
+      on
       customMapStyle={MAP_STYLE}
+      onMapReady={()=>{setMapLoaded(true)}}
     >
      
  
@@ -133,8 +158,6 @@ return (
             key={monster.id}
             icon={monster.id == monsterId ? ICONS.monster.icon : ICONS.monster.marker}
             coordinate={{ latitude: monster.location.lat, longitude: monster.location.lng }}
-            // title={"test"}
-            // description={"test test "}
             onPress={() => { onMarkerPress(monster) }}
           />
 
