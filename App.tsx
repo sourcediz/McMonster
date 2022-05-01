@@ -20,7 +20,9 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import { ScreenProvider } from 'responsive-native';
 import { COLORS } from './src/lib/colors';
-import Signup from './src/screens/Signup/SignupScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import { TabNavigator } from './src/navigation/RootNavigator';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const CustomStatusBar : React.FC<{isDarkMode : boolean}> = ({isDarkMode}) => {
   const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
@@ -42,15 +44,18 @@ const App = () => {
   };
 
   return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
     <SafeAreaProvider style={{ flex: 1 }}>
             <CustomStatusBar isDarkMode={isDarkMode} />
             <View style={[{flex : 1},backgroundStyle]}>
             <ScreenProvider baseFontSize={16}  >
-              <Signup />
+              <NavigationContainer>
+                <TabNavigator/>
+              </NavigationContainer>
         </ScreenProvider> 
       </View>
     </SafeAreaProvider>
-
+    </GestureHandlerRootView>
   );
 };
 
