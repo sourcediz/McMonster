@@ -74,7 +74,7 @@ class Auth {
 
   @action
   logout() {
-      console.log("LOG OUT")
+      this.authToken = ''
     this.csrfToken = '';
     this.hasObBoarded = false;
   }

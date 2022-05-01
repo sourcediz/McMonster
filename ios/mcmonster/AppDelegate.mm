@@ -44,11 +44,7 @@
 
   UIView *rootView = RCTAppSetupDefaultRootView(bridge, @"mcmonster", nil);
 
-  if (@available(iOS 13.0, *)) {
-    rootView.backgroundColor = [UIColor systemBackgroundColor];
-  } else {
-    rootView.backgroundColor = [UIColor whiteColor];
-  }
+  rootView.backgroundColor = [UIColor colorWithRed:0.15686 green:0.16078 blue:0.12941 alpha:1.00000];
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];

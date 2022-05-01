@@ -6,7 +6,14 @@ import Logo from '../../components/atoms/Logo'
 import { COLORS } from '../../lib/colors'
 import { IconTextInput, PasswordTextInput } from '../../components/atoms/TextInput'
 import ButtonBase, { OutlineButton } from '../../components/atoms/Button'
+import authStore from '../../store/userStore'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 const LoginScreen = () => {
+    const user = authStore
+    const guestHandler = () =>{
+        user.setAuthToken("guest")
+    }
+
     return (
         <Container >
             <View style={LAYOUT.rowAllCenter}>
@@ -36,10 +43,10 @@ const LoginScreen = () => {
                </OutlineButton>
            </View>
 
-           <Pressable style={[LAYOUT.rowAllCenter,]}>
-            <H6 text='New to McMonsters?' fontStyle={[{color : COLORS.mainLight}, FONTS.Bubble]}/>
-            <H6 text='Register' fontStyle={[styles.register,FONTS.Bubble]}/>
-           </Pressable>
+           <TouchableOpacity onPress={guestHandler} style={[LAYOUT.rowAllCenter,]}>
+            <H6 text='Not a Hunter?' fontStyle={[{color : COLORS.mainLight}, FONTS.Bubble]}/>
+            <H6 text='Continue as a guest' fontStyle={[styles.register,FONTS.Bubble]}/>
+           </TouchableOpacity>
 
         </Container>
     )

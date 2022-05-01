@@ -12,12 +12,14 @@ import SingleView from '../screens/SingleView/SingleView';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ProfileScreen from '../screens/Profile/ProfileScreen';
 import HuntScreen from '../screens/Hunt/HuntScreen';
+import { observer } from 'mobx-react';
+import authStore from '../store/userStore';
 
 //create root stack and show tabnavigator if authenticated
 const Root = createStackNavigator();
 
-export const RootNavigator = () =>{
-    const isAuth = true; //temp auth flag
+export const RootNavigator = observer (() =>{
+    const userStore = authStore
     return(
         <Root.Navigator 
         
@@ -28,7 +30,7 @@ export const RootNavigator = () =>{
         headerShown : false,
         
     }} >
-        {isAuth ? (
+        {authStore.authToken ? (
             <>
             <Root.Screen name="app" component={TabNavigator} />
             {/* make modal group */}
@@ -45,7 +47,7 @@ export const RootNavigator = () =>{
 
       </Root.Navigator>
     )
-}
+})
 
 const AuthStack = createStackNavigator();
 
@@ -79,6 +81,9 @@ export const TabNavigator = ()=> {
         inactiveBackgroundColor: COLORS.mainLight,   
      }}
      screenOptions={({ route }) => ({
+      tabBarStyle: {
+           backgroundColor: COLORS.secondary,        
+    },
         headerShown : false,
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
@@ -105,6 +110,7 @@ export const TabNavigator = ()=> {
         <TabStack.Screen name="Map" component={MapScreen} />
         <TabStack.Screen name="Hunt" component={HuntScreen} />
         <TabStack.Screen name="Profile" component={ProfileScreen}  />
+
       </TabStack.Navigator>
   );
 }

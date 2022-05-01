@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Platform,
   SafeAreaView,
@@ -15,9 +15,10 @@ import { COLORS } from './src/lib/colors';
 import { NavigationContainer } from '@react-navigation/native';
 
 
-import { Provider } from 'mobx-react';
-import rooteStore from './src/store/rooteStore';
+import { observer, Provider } from 'mobx-react';
+import rootStore from './src/store/rootStore';
 import { RootNavigator } from './src/navigation/RootNavigator';
+import { WithSplashScreen } from './src/screens/Splash/SplashScreen';
 
 const CustomStatusBar : React.FC<{isDarkMode : boolean}> = ({isDarkMode}) => {
   const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
@@ -30,7 +31,7 @@ const CustomStatusBar : React.FC<{isDarkMode : boolean}> = ({isDarkMode}) => {
   )
 };
 
-const App = () => {
+const App = observer(() => {
 
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -38,8 +39,10 @@ const App = () => {
     backgroundColor: isDarkMode ? COLORS.main : COLORS.main,
   };
 
+
   return (
-    <Provider {...rooteStore}>
+    <Provider {...rootStore}>
+      <WithSplashScreen >
     <SafeAreaProvider style={{ flex: 1 }}>
             <CustomStatusBar isDarkMode={isDarkMode} />
             <View style={[{flex : 1},backgroundStyle]}>
@@ -50,9 +53,10 @@ const App = () => {
         </ScreenProvider> 
       </View>
     </SafeAreaProvider>
+    </WithSplashScreen>
     </Provider>
   );
-};
+});
 
 const styles = StyleSheet.create({
 });

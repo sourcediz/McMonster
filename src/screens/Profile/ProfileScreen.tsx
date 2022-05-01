@@ -4,8 +4,14 @@ import { Container, LAYOUT, Wrapper } from '../../lib/layout'
 import { FONTS, H1, H2, H3, H5 } from '../../lib/fonts'
 import { COLORS } from '../../lib/colors'
 import Icon  from 'react-native-vector-icons/Ionicons'
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import authStore from '../../store/userStore'
 
 const ProfileScreen = () => {
+    const user = authStore
+    const onLogoutHandler = () => {
+        user.logout()
+    }
   return (
     <Wrapper >
         <View style={{height : "50%"}}>
@@ -18,10 +24,10 @@ const ProfileScreen = () => {
         <View style={styles.splitter}></View>
         <View style={[ styles.dataRow]}>
 
-             <View style={[LAYOUT.rowAlignCenterBetween,styles.body]}>
+             <TouchableOpacity onPress={onLogoutHandler} style={[LAYOUT.rowAlignCenterBetween,styles.body]}>
                 <H5 fontStyle={[FONTS.Bubble, {color : COLORS.secondaryLight}]} text={`Logout `} />
                 <Icon name='chevron-forward-outline' size={30} color={COLORS.secondaryLight} />
-                </View>
+                </TouchableOpacity>
             </View>
          </View>
     </Wrapper>
