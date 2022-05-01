@@ -1,3 +1,4 @@
+import React from "react"
 import { StyleProp, View, ViewStyle } from "react-native"
 
 export const Container: React.FC = ({ children }) => {
@@ -19,8 +20,13 @@ const rowAlignCenter : StyleProp<ViewStyle> = {
     ...row,
     alignItems: 'center',
 }
+const rowAllCenter : StyleProp<ViewStyle> = {
+    ...row,
+    alignItems: 'center',
+    justifyContent: 'center',
+}
 
-const rowCenterBetween : StyleProp<ViewStyle> = {
+const rowAlignCenterBetween : StyleProp<ViewStyle> = {
     ...rowAlignCenter,
     justifyContent: 'space-between',
 }
@@ -28,5 +34,6 @@ const rowCenterBetween : StyleProp<ViewStyle> = {
 export const LAYOUT = {
     row,
     rowAlignCenter,
-    rowCenterBetween,
+    rowAlignCenterBetween,
+    rowAllCenter
 }
