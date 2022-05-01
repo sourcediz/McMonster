@@ -2,27 +2,22 @@ import React from 'react';
 import {
   Platform,
   SafeAreaView,
-  ScrollView,
   StatusBar,
   StyleSheet,
-  Text,
   useColorScheme,
   View,
 } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+
 import { ScreenProvider } from 'responsive-native';
 import { COLORS } from './src/lib/colors';
 import { NavigationContainer } from '@react-navigation/native';
-import { RootNavigator, TabNavigator } from './src/navigation/RootNavigator';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
+
+import { Provider } from 'mobx-react';
+import rooteStore from './src/store/rooteStore';
+import { RootNavigator } from './src/navigation/RootNavigator';
 
 const CustomStatusBar : React.FC<{isDarkMode : boolean}> = ({isDarkMode}) => {
   const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
@@ -44,6 +39,7 @@ const App = () => {
   };
 
   return (
+    <Provider {...rooteStore}>
     <SafeAreaProvider style={{ flex: 1 }}>
             <CustomStatusBar isDarkMode={isDarkMode} />
             <View style={[{flex : 1},backgroundStyle]}>
@@ -54,6 +50,7 @@ const App = () => {
         </ScreenProvider> 
       </View>
     </SafeAreaProvider>
+    </Provider>
   );
 };
 
