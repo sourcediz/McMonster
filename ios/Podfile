@@ -19,7 +19,7 @@ target 'mcmonster' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+  # pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
   target 'mcmonsterTests' do
     inherit! :complete
     # Pods for testing
