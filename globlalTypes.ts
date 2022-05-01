@@ -1,4 +1,4 @@
-export type location = {
+export type Tlocation = {
     lat : number,
     lng : number
 } 

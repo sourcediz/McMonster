@@ -1,156 +1,188 @@
-import { Platform, StyleSheet, Text, View ,Animated} from 'react-native'
+import { Platform, StyleSheet, Text, View, Animated, Dimensions, Pressable } from 'react-native'
 import React, { useRef } from 'react'
-import MapView, {  Marker, PROVIDER_GOOGLE } from 'react-native-maps'
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps'
 import { Wrapper } from '../../lib/layout'
 import { MAP_STYLE } from '../../lib/map'
 import { ICONS } from '../../../public/images/icon'
-import { Tmonster } from '../../../globlalTypes'
-import { getOneTimeLocation } from '../List/ListScreen'
-import { getMacdonals } from '../../../utils/places'
+import { Tlocation, Tmonster } from '../../../globlalTypes'
 import { generateMonster } from '../../../utils/monsters/monsterGenerator'
 import MonsterCard from '../../components/atoms/MonsterCard/MonsterCard'
+import { getOneTimeLocation } from '../../../utils/location/location'
+import PopIn from '../../components/atoms/PopIn'
+import { getMacdonals } from '../../../utils/places'
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import { COLORS } from '../../lib/colors'
+import Icon  from 'react-native-vector-icons/Ionicons'
+import { useRoute } from '@react-navigation/native'
+
 
 
 
 const MapScreen = () => {
+  const [userLoaction, setUserLoaction] = React.useState<Tlocation>({ lat: 0, lng: 0 })
+  const [mapLocation,setMapLocation] = React.useState<Tlocation>({ lat: 0, lng: 0 })
 
-  const [showCard,setShowCard] = React.useState(false)
-  const [monsterId,setMonsterId] = React.useState('')
-  const [selectedMonster,setSelectedMonster] = React.useState<Tmonster | null>(null)
+  const [loading, setLoading] = React.useState(false)
+  const [error, setError] = React.useState('')
+  const [monsters, setMonsters] = React.useState<Tmonster[]>([])
 
-  const onMarkerPress =(monster : Tmonster)=>{
+  const [showCard, setShowCard] = React.useState(false)
+  const [monsterId, setMonsterId] = React.useState('')
+  const [selectedMonster, setSelectedMonster] = React.useState<Tmonster | null>(null)
+
+  const {params} = useRoute()
+
+  
+  const onMarkerPress = (monster: Tmonster) => {
     setMonsterId(monster.id)
     //first time selecting a monster
-    if(!selectedMonster){
+    if (!selectedMonster) {
       setSelectedMonster(monster)
       setShowCard(true)
     }
     //any other time
-    else{
+    else {
       setShowCard(false)
-      setTimeout(()=>{
+      setTimeout(() => {
         setSelectedMonster(monster)
         setShowCard(true)
-      },500)
+      }, 500)
     }
   }
 
-  const popIn = useRef(new Animated.Value(200)).current  
-  const popInAnim = Animated.timing(
-    popIn,
-    {
-      toValue: -50,
-      duration: 500,
-      useNativeDriver: true,
-    }
-  )
+  const onRelocate = ()=>{
+    setMapLocation(userLoaction)
+  }
 
-  const popOutAnim = Animated.timing(
-    popIn,
-    {
-      toValue: 200,
-      duration: 500,
-      useNativeDriver: true,
-    }
-  )
+  const onLocate = ({lat, lng}: Tlocation) =>{
+      setMapLocation({lat,lng})
+  }
 
-  React.useEffect(() => {
-    
-    if(showCard){
-      popInAnim.start()
-    }
-    else{
-      popOutAnim.start()
-    }
-  }, [popIn,showCard])
-
-  const [places, setPlaces] = React.useState<Tmonster[]>([])
-  const [userLoaction, setUserLoaction] = React.useState<{ lat: number, lng: number }>({ lat: 0, lng: 0 })
   //Get Geo Loacation
   React.useEffect(() => {
-      console.log(userLoaction)
+    console.log(userLoaction)
 
-      if (Platform.OS === 'ios') {
-          getOneTimeLocation(setUserLoaction);
-      } else {
+    if (Platform.OS === 'ios') {
+      getOneTimeLocation({ setState: setUserLoaction, setError: setError })
+      getOneTimeLocation({ setState: setMapLocation, setError: setError })
+    }
+     else {
+    }
 
-      }
+   
+  
 
   }, [])
 
-  React.useEffect(() => {
-      if (userLoaction.lng != 0) {
-          getMacdonals(userLoaction)
-              .then((r) => {
-                  const monsters = r.map((place) => {
-                      const monster = generateMonster(place.place_id, place.rating)
-                      monster.location = place.geometry.location
-                      monster.address = place.vicinity
-                      return monster
-                  })
-
-                  setPlaces(monsters)
-              })
-  }
-  }, [userLoaction])
-
-  return (
-    <View style={styles.container}>
-     <MapView
-       provider={PROVIDER_GOOGLE} // remove if not using Google Maps
-       style={styles.map}
-       region={{
-         latitude: 37.785834,
-         longitude: -122.406417,
-         latitudeDelta: 0.015,
-         longitudeDelta: 0.0121,
-       }}
-       customMapStyle={MAP_STYLE}
-     >
-
-       {
-         places && places.map((monster,index)=>(
-          <Marker
-          key={monster.id}
-          icon={monster.id == monsterId ? ICONS.monster.icon :  ICONS.monster.marker}
-          coordinate={{latitude : monster.location.lat, longitude : monster.location.lng}}
-          // title={"test"}
-          // description={"test test "}
-          onPress={()=>{onMarkerPress(monster)}}
-        />
-        
-         ))
-       }
-      
-     </MapView>
-
-    {
-      selectedMonster  && (
-        // animated view
-
-        <Animated.View
-          style={{
-            transform: [{ translateY: popIn }],
-          }}
-        >
-       <MonsterCard monster={selectedMonster}/>
-     </Animated.View>)
+  React.useEffect(()=>{
+    if(params?.monster){
+      setMapLocation(params.monster.location)
+      setMonsterId(params.monster.id)
+      onMarkerPress(params.monster)
     }
+  },[params])
+
+ 
+
+  
+React.useEffect(() => {
+  if (userLoaction.lng != 0) {
+    getMacdonals(userLoaction)
+      .then((r) => {
+        const monsters = r.map((place) => {
+          const monster = generateMonster(place.place_id, place.rating)
+          monster.location = place.geometry.location
+          monster.address = place.vicinity
+          return monster
+        })
+
+        setMonsters(monsters)
+      })
+  }
+}, [userLoaction])
+
+return (
+  <View style={styles.container}>
+ 
+    
+    <MapView
+      provider={PROVIDER_GOOGLE} // remove if not using Google Maps
+      style={styles.map}
+      region={{
+        latitude: mapLocation.lat,
+        longitude: mapLocation.lng,
+        latitudeDelta: 0.015,
+        longitudeDelta: 0.0121,
+        
+      }}
+      customMapStyle={MAP_STYLE}
+    >
      
-   </View>
-  )
-}
+ 
+      <Marker
+        coordinate={{
+          latitude: userLoaction.lat,
+          longitude: userLoaction.lng,
+        }}
+        title="You are here"
+        image={ICONS.sword.icon}
+      />
+      {
+        monsters && monsters.map((monster, index) => (
+          <Marker
+            key={monster.id}
+            icon={monster.id == monsterId ? ICONS.monster.icon : ICONS.monster.marker}
+            coordinate={{ latitude: monster.location.lat, longitude: monster.location.lng }}
+            // title={"test"}
+            // description={"test test "}
+            onPress={() => { onMarkerPress(monster) }}
+          />
+
+        ))
+      }
+
+    </MapView>
+
+  
+
+    <Pressable onPress={onRelocate} style={[styles.mapButton]}>
+      <Icon name='locate-outline' color={COLORS.main} size={25}/>
+    </Pressable>
+    {
+      selectedMonster && (
+        <PopIn showCard={showCard} >
+          <MonsterCard setMapLocation={setMapLocation} monster={selectedMonster} />
+        </PopIn>
+      )
+    }
+
+  </View>
+)
+} 
 
 export default MapScreen
 
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
-    flex : 1,
+    flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
   map: {
     ...StyleSheet.absoluteFillObject,
   },
- });
+  mapButton : {
+    borderRadius : 8,
+    height : 50,
+    width : 50,
+    justifyContent : 'center',
+    alignItems : 'center',
+    backgroundColor : COLORS.secondaryLight,
+    position : 'absolute',
+    top: '10%',
+    alignSelf : "flex-end",
+    margin: 20,
+    zIndex : 10,
+    }
+});

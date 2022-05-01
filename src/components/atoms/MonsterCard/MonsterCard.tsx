@@ -1,6 +1,6 @@
-import { Dimensions, Image, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { Tmonster } from '../../../../globlalTypes'
+import { Tlocation, Tmonster } from '../../../../globlalTypes'
 import { COLORS } from '../../../lib/colors'
 import { LAYOUT } from '../../../lib/layout'
 import { monsterIMG } from '../../../../public/images/monsters'
@@ -15,14 +15,24 @@ import { observer } from 'mobx-react';
 
 type TmonsterCardProps = {
     monster: Tmonster
+    setMapLocation?: (location: Tlocation) => void
 }
 
 
-const MonsterCard: React.FC<TmonsterCardProps> = observer(({ monster }) => {
+const MonsterCard: React.FC<TmonsterCardProps> = observer(({ monster ,setMapLocation}) => {
     const navigation = useNavigation()
     const huntStore = appDataStore
     const onViewHandler = ()=>{
         navigation.navigate("singleView", {monster})
+    }
+
+    const onLocaterHandler = ()=>{
+        if(setMapLocation){
+            setMapLocation(monster.location)
+        }
+        else{
+            navigation.navigate("Map", {monster})
+        }
     }
 
     React.useEffect(()=>{
@@ -73,11 +83,11 @@ const MonsterCard: React.FC<TmonsterCardProps> = observer(({ monster }) => {
                             </TouchableOpacity>
                            
                         </View>
-                        <View style={styles.buttonContainer}>
+                        <Pressable onPress={onLocaterHandler} style={styles.buttonContainer}>
                             <SolidButton buttonStyle={styles.buttonStyle}>
                                 <Text style={styles.buttonText}>Locate</Text>
                             </SolidButton>
-                        </View>
+                        </Pressable>
                     </View>
 
 

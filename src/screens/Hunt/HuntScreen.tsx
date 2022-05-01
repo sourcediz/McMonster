@@ -44,34 +44,6 @@ const styles = StyleSheet.create({})
 
 
 
-export const getOneTimeLocation = async (setState: React.Dispatch<React.SetStateAction<{
-    lat: number;
-    lng: number;
-}>>) => {
-    const location = {
-        lat: 0,
-        lng: 0
-    }
-
-    Geolocation.getCurrentPosition(
-        //Will give you the current location
-        (position) => {
-            location.lng = parseFloat(JSON.stringify(position.coords.longitude));
-            location.lat = parseFloat(JSON.stringify(position.coords.latitude));
-            setState(location)
-        },
-        (error) => {
-            //   setLocationStatus(error.message);
-            // return error.message
-        },
-        {
-            enableHighAccuracy: false,
-            timeout: 30000,
-            maximumAge: 1000
-        },
-    );
-};
-
 // if (Platform.OS === 'ios') {
 //     return getOneTimeLocation(setGeoLoaction);
 // } else {
