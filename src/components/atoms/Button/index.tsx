@@ -1,7 +1,9 @@
-import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
+import { Pressable, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import React from 'react'
 import { LAYOUT } from '../../../lib/layout'
 import { COLORS } from '../../../lib/colors'
+import { Tmonster } from '../../../../globlalTypes'
+import appDataStore from '../../../store/appDataStore'
 
 type TbuttonBaseProps = {
     buttonStyle? : StyleProp<ViewStyle>
@@ -51,3 +53,28 @@ const styles = StyleSheet.create({
 
     }
 })
+
+type TfavouriteButtonProps = {
+    monster : Tmonster
+}
+
+export const FavouriteButton : React.FC<TfavouriteButtonProps> = ({monster,children}) => {
+    const [isFav,setIsFav] = React.useState(appDataStore.hasMonster(monster.id))
+
+    const onPressHandler = () => {
+        if(isFav){
+            appDataStore.removeMonster(monster.id)
+            setIsFav(false)
+        }
+        else{
+            appDataStore.addToHuntList(monster)
+            setIsFav(true)
+        }
+    }
+
+    return(
+        <Pressable onPress={onPressHandler}>
+            {children}
+        </Pressable>
+    )
+}

@@ -7,6 +7,7 @@ import { Container, Wrapper } from '../../lib/layout'
 import { FlatList } from 'react-native-gesture-handler'
 import MonsterCard from '../../components/atoms/MonsterCard/MonsterCard'
 import { FONTS, H1, H2 } from '../../lib/fonts'
+import { observer } from 'mobx-react'
 
 const ListScreen = () => {
     const [places, setPlaces] = React.useState([])

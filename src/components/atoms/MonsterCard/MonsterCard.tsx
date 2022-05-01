@@ -7,21 +7,26 @@ import { monsterIMG } from '../../../../public/images/monsters'
 import { FONTS, H1, H4, H6 } from '../../../lib/fonts'
 import Icon from 'react-native-vector-icons/Ionicons';
 import { convertThousands } from '../../../../utils/monsters/units'
-import { SolidButton } from '../Button'
+import { FavouriteButton, SolidButton } from '../Button'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/native'
+import appDataStore from '../../../store/appDataStore'
+import { observer } from 'mobx-react';
 
 type TmonsterCardProps = {
     monster: Tmonster
 }
 
 
-const MonsterCard: React.FC<TmonsterCardProps> = ({ monster }) => {
+const MonsterCard: React.FC<TmonsterCardProps> = observer(({ monster }) => {
     const navigation = useNavigation()
-
+    const huntStore = appDataStore
     const onViewHandler = ()=>{
         navigation.navigate("singleView", {monster})
     }
+
+    React.useEffect(()=>{
+    },[huntStore.huntList])
     
     return (
         <View style={styles.card}>
@@ -34,7 +39,13 @@ const MonsterCard: React.FC<TmonsterCardProps> = ({ monster }) => {
                 <View style={{ width: "70%" }}>
                     <View style={[LAYOUT.rowAlignCenterBetween]}>
                         <H6 fontStyle={[FONTS.Bubble]} text={`Mc ${monster.type} ${monster.name}`} />
-                        <Icon name='star-outline' size={25} color={COLORS.secondaryLight} />
+                        <FavouriteButton monster={monster}>
+                            {!huntStore.hasMonster(monster.id) ? 
+                            <Icon name='star-outline' size={25} color={COLORS.secondaryLight} />
+                            :
+                            <Icon name='star' size={25} color={COLORS.secondaryLight} />
+                            }
+                        </FavouriteButton>
                     </View>
 
                     <View style={[LAYOUT.rowAlignCenter]}>
@@ -74,7 +85,7 @@ const MonsterCard: React.FC<TmonsterCardProps> = ({ monster }) => {
             </View>
         </View>
     )
-}
+})
 
 export default MonsterCard
 
