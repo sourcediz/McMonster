@@ -1,10 +1,10 @@
-import { StyleProp, StyleSheet, Text, View, ViewProps } from 'react-native'
+import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import React from 'react'
 import { LAYOUT } from '../../../lib/layout'
 import { COLORS } from '../../../lib/colors'
 
 type TbuttonBaseProps = {
-    buttonStyle : StyleProp<ViewProps>
+    buttonStyle? : StyleProp<ViewStyle>
 }
 
 
@@ -16,10 +16,19 @@ const ButtonBase : React.FC<TbuttonBaseProps> = (props) => {
   )
 }
 
-export const OutlineButton : React.FC = (props) => {
+export const OutlineButton : React.FC<TbuttonBaseProps> = (props) => {
     
     return(
-        <ButtonBase buttonStyle={[LAYOUT.rowAllCenter, styles.outlineButton]}>
+        <ButtonBase buttonStyle={[LAYOUT.rowAllCenter, styles.outlineButton,props.buttonStyle]}>
+            {props.children}
+        </ButtonBase>
+    )
+}
+
+export const SolidButton : React.FC<TbuttonBaseProps> = (props) => {
+    
+    return(
+        <ButtonBase buttonStyle={[LAYOUT.rowAllCenter, styles.SolidButton, props.buttonStyle]}>
             {props.children}
         </ButtonBase>
     )
@@ -36,5 +45,9 @@ const styles = StyleSheet.create({
     outlineButton : {
         borderWidth : 2,
         borderColor : COLORS.secondaryLight,
+    },
+    SolidButton : {
+        backgroundColor : COLORS.secondaryLight,
+
     }
 })

@@ -7,6 +7,7 @@ import { monsterIMG } from '../../../../public/images/monsters'
 import { FONTS, H1, H4, H6 } from '../../../lib/fonts'
 import Icon from 'react-native-vector-icons/Ionicons';
 import { convertThousands } from '../../../../utils/monsters/units'
+import { SolidButton } from '../Button'
 
 type TmonsterCardProps = {
     monster: Tmonster
@@ -27,22 +28,36 @@ const MonsterCard: React.FC<TmonsterCardProps> = ({ monster }) => {
                         <H6 fontStyle={[FONTS.Bubble]} text={`Mc ${monster.type} ${monster.name}`} />
                         <Icon name='star-outline' size={25} color={COLORS.secondaryLight} />
                     </View>
-                    
+
                     <View style={[LAYOUT.rowAlignCenter]}>
-                        
-                        <View style={[LAYOUT.rowAlignCenter,styles.statContainer]}>
+
+                        <View style={[LAYOUT.rowAlignCenter, styles.statContainer]}>
                             <Icon name='aperture' size={25} color={COLORS.secondaryLight} />
                             <H6 fontStyle={[FONTS.Bubble]} text={`${monster.attack}`} />
                         </View>
-                        <View style={[LAYOUT.rowAlignCenter,styles.statContainer]}>
+                        <View style={[LAYOUT.rowAlignCenter, styles.statContainer]}>
                             <Icon name='speedometer' size={25} color={COLORS.secondaryLight} />
                             <H6 fontStyle={[FONTS.Bubble]} text={`${monster.speed}`} />
                         </View>
                     </View>
-                    <View style={[LAYOUT.rowAlignCenter,styles.statContainer]}>
-                            <Icon name='heart' size={25} color={COLORS.secondaryLight} />
-                            <H6 fontStyle={[FONTS.Bubble]} text={`${convertThousands(monster.hp)} / ${convertThousands(monster.hp)} `} />
+                    <View style={[LAYOUT.rowAlignCenter, styles.statContainer]}>
+                        <Icon name='heart' size={25} color={COLORS.secondaryLight} />
+                        <H6 fontStyle={[FONTS.Bubble]} text={`${convertThousands(monster.hp)} / ${convertThousands(monster.hp)} `} />
+                    </View>
+
+                    <View style={[LAYOUT.rowAlignCenterBetween, {marginTop : 10}]}>
+                        <View style={styles.buttonContainer}>
+                            <SolidButton buttonStyle={styles.buttonStyle}>
+                                <Text style={styles.buttonText}>View</Text>
+                            </SolidButton>
                         </View>
+                        <View style={styles.buttonContainer}>
+                            <SolidButton buttonStyle={styles.buttonStyle}>
+                                <Text style={styles.buttonText}>Locate</Text>
+                            </SolidButton>
+                        </View>
+                    </View>
+
 
                 </View>
             </View>
@@ -65,6 +80,17 @@ const styles = StyleSheet.create({
     },
     statContainer: {
         paddingRight: 10
+    },
+    buttonContainer : {
+        width: "48%",
+    },
+    buttonStyle : {
+        paddingVertical : 10,
+    },
+    buttonText : {
+        ...FONTS.Bubble,
+        color: COLORS.main
+
     }
 
 })
