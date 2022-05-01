@@ -9,6 +9,7 @@ import LoginScreen from '../screens/Login/LoginScreen';
 import Signup from '../screens/Signup/SignupScreen';
 import { COLORS } from '../lib/colors';
 import SingleView from '../screens/SingleView/SingleView';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 //create root stack and show tabnavigator if authenticated
 const Root = createStackNavigator();
@@ -69,13 +70,39 @@ const TabStack = createBottomTabNavigator();
 export const TabNavigator = ()=> {
   return (
     <TabStack.Navigator 
-         
-    screenOptions={{
+    tabBarOptions={{
+        activeTintColor: COLORS.main,
+        inactiveTintColor: COLORS.secondaryLight,
+        activeBackgroundColor: COLORS.secondaryLight,
+        inactiveBackgroundColor: COLORS.mainLight,   
+     }}
+     screenOptions={({ route }) => ({
         headerShown : false,
-        
-    }}>
-        <TabStack.Screen  name="monsters" component={ListScreen} />
-        <TabStack.Screen name="map" component={MapScreen} />
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+
+          if (route.name === 'Monsters') {
+            iconName = "skull";
+          } else if (route.name === 'Map') {
+            iconName = "map";
+          }
+          else if (route.name === 'Hunt') {
+            iconName = "star";
+          }
+          else if (route.name === 'Profile') {
+            iconName = "person";
+          }
+          
+
+
+          // You can return any component that you like here!
+          return <Icon name={iconName} size={size} color={color} />;
+        }})}
+    >
+        <TabStack.Screen  name="Monsters" component={ListScreen} />
+        <TabStack.Screen name="Map" component={MapScreen} />
+        <TabStack.Screen name="Hunt" component={MapScreen} />
+        <TabStack.Screen name="Profile" component={MapScreen}  />
       </TabStack.Navigator>
   );
 }
