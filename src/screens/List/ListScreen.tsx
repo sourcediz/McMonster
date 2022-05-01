@@ -13,6 +13,8 @@ const ListScreen = () => {
     const [userLoaction, setUserLoaction] = React.useState<{ lat: number, lng: number }>({ lat: 0, lng: 0 })
     //Get Geo Loacation
     React.useEffect(() => {
+        console.log(userLoaction)
+
         if (Platform.OS === 'ios') {
             getOneTimeLocation(setUserLoaction);
         } else {
@@ -59,7 +61,7 @@ const styles = StyleSheet.create({})
 
 
 
-const getOneTimeLocation = async (setState: React.Dispatch<React.SetStateAction<{
+export const getOneTimeLocation = async (setState: React.Dispatch<React.SetStateAction<{
     lat: number;
     lng: number;
 }>>) => {

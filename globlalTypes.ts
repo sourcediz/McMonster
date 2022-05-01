@@ -1,3 +1,8 @@
+export type location = {
+    lat : number,
+    lng : number
+} 
+
 export type Tmonster = {
     id : string
     name : string,
@@ -6,5 +11,6 @@ export type Tmonster = {
     hp : number,
     attack : number,
     defense : number
-    speed : string
+    speed : string,
+    location : location
 }
