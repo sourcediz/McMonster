@@ -1,8 +1,11 @@
 import React from "react"
 import { StyleProp, View, ViewStyle } from "react-native"
 
-export const Container: React.FC = ({ children }) => {
-    return <View style={containerStyle}>{children}</View>
+type TconatinerProps = {
+    justifyContent?: "flex-start" | "flex-end" | "center" | "space-between" | "space-around" | "space-evenly"
+}
+export const Container: React.FC<TconatinerProps> = ({ children, justifyContent }) => {
+    return <View style={[containerStyle, {justifyContent : justifyContent ? justifyContent : "space-around"}]}>{children}</View>
 }
 
 const containerStyle: StyleProp<ViewStyle> = {
