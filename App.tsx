@@ -19,10 +19,8 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import { ScreenProvider } from 'responsive-native';
-import { H1 } from './src/components/fonts';
 import { COLORS } from './src/lib/colors';
-import LoginScreen from './src/screens/Login/LoginScreen';
-import setDefaults from './utils/setDefaults';
+import Signup from './src/screens/Signup/SignupScreen';
 
 const CustomStatusBar : React.FC<{isDarkMode : boolean}> = ({isDarkMode}) => {
   const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
@@ -48,7 +46,7 @@ const App = () => {
             <CustomStatusBar isDarkMode={isDarkMode} />
             <View style={[{flex : 1},backgroundStyle]}>
             <ScreenProvider baseFontSize={16}  >
-              <LoginScreen />
+              <Signup />
         </ScreenProvider> 
       </View>
     </SafeAreaProvider>
