@@ -41,7 +41,7 @@ export const getOneTimeLocation = async ({ setState, setError }: TgetOneTimeLoca
                 if (location != { lat: 0, lng: 0 }) {
                     setState(location)
                 }
-                user.locationEnabled()
+                user.locationEnabledTemp()
             }
             setError("")
             return
@@ -81,7 +81,7 @@ export const subscribeLocationLocation = async ({ setState, setError, setWatchId
                 if (location != { lat: 0, lng: 0 }) {
                     setState(location)
                 }
-                user.locationEnabled()
+                user.locationEnabledTemp()
             }
 
         },
