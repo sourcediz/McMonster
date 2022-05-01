@@ -1,9 +1,15 @@
 import React from "react"
 import { StyleProp, View, ViewStyle } from "react-native"
+import { COLORS } from "./colors"
 
 type TconatinerProps = {
     justifyContent?: "flex-start" | "flex-end" | "center" | "space-between" | "space-around" | "space-evenly"
 }
+
+export const Wrapper: React.FC = (props) => {
+    return <View style={{flex : 1, backgroundColor : COLORS.main}}>{props.children}</View>
+}
+
 export const Container: React.FC<TconatinerProps> = ({ children, justifyContent }) => {
     return <View style={[containerStyle, {justifyContent : justifyContent ? justifyContent : "space-around"}]}>{children}</View>
 }
