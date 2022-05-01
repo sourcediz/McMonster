@@ -64,7 +64,7 @@ export const TabNavigator = ()=> {
         headerShown : false,
         
     }}>
-        <TabStack.Screen name="monsters" component={ListScreen} />
+        <TabStack.Screen  name="monsters" component={ListScreen} />
         <TabStack.Screen name="map" component={MapScreen} />
       </TabStack.Navigator>
   );

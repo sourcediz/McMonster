@@ -4,7 +4,6 @@ import { FONTS, H1, H2, H3, H4, H5, H6 } from '../../lib/fonts'
 import { Container, LAYOUT } from '../../lib/layout'
 import Logo from '../../components/atoms/Logo'
 import { COLORS } from '../../lib/colors'
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import { IconTextInput, PasswordTextInput } from '../../components/atoms/TextInput'
 import ButtonBase, { OutlineButton } from '../../components/atoms/Button'
 const LoginScreen = () => {
