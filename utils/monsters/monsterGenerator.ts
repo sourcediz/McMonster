@@ -1,5 +1,9 @@
 // Find all the single number in a string
 export const findNumbers = (str: string) => {
+    if (typeof str !== "string") {
+        return [];
+    }
+    
     const regex = /\d+/g;
     const numbers =  str.match(regex);
     
@@ -16,6 +20,13 @@ export const findNumbers = (str: string) => {
 }
 
 export const convertLetterToNumber = (letter: string) => {
+    if(letter.length != 1){
+        return 0;
+    }
+    if (typeof letter !== "string") {
+        return 0;
+    }
+    
     const alphabet = 'abcdefghijklmnopqrstuvwxyz';
     return alphabet.indexOf(letter.toLowerCase()) + 1;
 }

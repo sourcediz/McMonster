@@ -1,5 +1,8 @@
 //Makes numbers over one thousand readable
 export const convertThousands = (number: number) => {
+    if (typeof number !== "number") {
+        return "";
+    }
     //Add thousand dot
     let tempNum =  number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     //remove last 2 char

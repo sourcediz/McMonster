@@ -14,20 +14,16 @@ import { OutlineButton } from '../../components/atoms/Button'
 
 const ListScreen = () => {
     const [monsters, setMonsters] = React.useState([])
-
     const [loading, setLoading] = React.useState(false)    
     const [userLocation,error] = useLocation()
     const [refresh,setRefresh] = React.useState(false);
-
+    const [requestError,setRequestError] = React.useState("");
     React.useEffect(() => {
         setLoading(true)
-        console.log("User Location : LIST",userLocation)
-
         if (userLocation.lng != 0) {
             getMacdonals(userLocation)
                 .then((r) => {
                     const monsters = r.map((place) => {
-                        console.log(place.place_id)
                         const monster = generateMonster(place.place_id, place.rating)
                         monster.location = place.geometry.location
                         monster.address = place.vicinity
@@ -36,8 +32,8 @@ const ListScreen = () => {
                     setMonsters(monsters)
                 })
                 .catch((e) => {
-                    // setError("Error getting monsters")
                     console.log("error",e)
+                    setRequestError("Request Error")
                 })
         }
         setLoading(false)
@@ -55,15 +51,10 @@ const ListScreen = () => {
                         </View>
                         :
 
-                        error.length != 0 && refresh ?
+                        (error.length != 0 || requestError.length != 0) && refresh ?
 
                             <View style={{ flex: 1, justifyContent: "center", alignSelf: "center" }}>
-                                <H3 fontStyle={{ color: "red", textAlign: "center" }} text={error} />
-                                <TouchableOpacity onPress={() => { Linking.openURL('app-settings:passwords'); }} style={{ marginTop: 10 }}>
-                                    <OutlineButton>
-                                        <H5 fontStyle={{ color: COLORS.secondaryLight, textAlign: "center" }} text={"Enable Location Services"} />
-                                    </OutlineButton>
-                                </TouchableOpacity>
+                                <H3 fontStyle={{ color: "red", textAlign: "center" }} text={requestError} />
                             </View>
                             :
                             monsters.length == 0 ?
