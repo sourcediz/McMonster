@@ -1,13 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
-
 import React from 'react';
 import {
   Platform,
@@ -29,6 +19,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import { ScreenProvider } from 'responsive-native';
+import { H1 } from './src/components/fonts';
 import { COLORS } from './src/lib/colors';
 import LoginScreen from './src/screens/Login/LoginScreen';
 
@@ -53,10 +44,10 @@ const App = () => {
   return (
     <SafeAreaProvider style={{ flex: 1 }}>
             <CustomStatusBar isDarkMode={isDarkMode} />
-            <SafeAreaView style={backgroundStyle}>
+            <View style={[{flex : 1},backgroundStyle]}>
             <ScreenProvider baseFontSize={16} >
         </ScreenProvider>
-      </SafeAreaView>
+      </View>
     </SafeAreaProvider>
 
   );
