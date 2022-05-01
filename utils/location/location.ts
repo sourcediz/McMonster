@@ -33,6 +33,8 @@ export const getOneTimeLocation =  async ({ setState, setError }: TgetOneTimeLoc
             const permissionInUse = await Permissions.check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE)
             if(Platform.OS ==  "android"){
                 setState(location)
+                user.locationEnabled()
+
             }
             if (permissionAlways == 'granted') {
                 if (location != { lat: 0, lng: 0 }) {
@@ -130,7 +132,6 @@ export const useLocation = () => {
                         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
                             //To Check, If Permission is granted
                             getOneTimeLocation({ setState: setUserLocation, setError: setError })
-                            user.locationEnabledTemp()
                             // subscribeLocationLocation({ setState: setUserLocation, setError: setError, setWatchId: setWatchId })
 
                         } else {
