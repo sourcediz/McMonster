@@ -38,6 +38,7 @@ const MapScreen = () => {
   
   const onMarkerPress = (monster: Tmonster) => {
     setMonsterId(monster.id)
+    setMapLocation({ lat: monster.location.lat, lng: monster.location.lng })
     //first time selecting a monster
     if (!selectedMonster) {
       setSelectedMonster(monster)
@@ -65,7 +66,6 @@ const MapScreen = () => {
   React.useEffect(()=>{
     if(mapLoaded){
       if(params?.monster ){
-        console.log("setting cords",params.monster.location)
         setMapLocation(params.monster.location)
         setMonsterId(params.monster.id)
         onMarkerPress(params.monster)
@@ -81,7 +81,6 @@ const MapScreen = () => {
   
 React.useEffect(() => {
 
-  console.log("Refresh", userLocation);
   if (userLocation.lng != 0) {
     getMacdonals(userLocation)
       .then((r) => {

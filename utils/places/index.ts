@@ -9,7 +9,7 @@ type TgetMacdonalsParams = {
 export const getMacdonals = ({lat,lng} : TgetMacdonalsParams) => {
 var config = {
   method: 'get',
-  url: `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat}%2C${lng}&radius=1500&type=restaurant&keyword=macdonals&key=${GOOGLE.apiKey}`,
+  url: `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat}%2C${lng}&radius=10000&type=restaurant&keyword=macdonals&key=${GOOGLE.apiKey}`,
   headers: { }
 };
 

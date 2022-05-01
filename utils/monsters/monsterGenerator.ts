@@ -1,5 +1,5 @@
 // Find all the single number in a string
-const findNumbers = (str: string) => {
+export const findNumbers = (str: string) => {
     const regex = /\d+/g;
     const numbers =  str.match(regex);
     
@@ -15,7 +15,7 @@ const findNumbers = (str: string) => {
     return numbersSplit;
 }
 
-const convertLetterToNumber = (letter: string) => {
+export const convertLetterToNumber = (letter: string) => {
     const alphabet = 'abcdefghijklmnopqrstuvwxyz';
     return alphabet.indexOf(letter.toLowerCase()) + 1;
 }
@@ -30,6 +30,7 @@ const MonsterNames = [
     "Werewolf",
     "Hydra",
     "Golem",
+    "Golem",
 ]
 
 const MonsterTypes = [
@@ -42,6 +43,7 @@ const MonsterTypes = [
     "Dark",
     "Light",
     "Poison",
+    "Undead",
 ]
 
 
@@ -63,8 +65,8 @@ export const generateMonster = (monsterId: string,rating : number) => {
 
     return{
         id : monsterId,
-        name : MonsterNames[monsterStats[0] - 1],
-        type : MonsterTypes[monsterStats[1] -1 ],
+        name : MonsterNames[monsterStats[0] ],
+        type : MonsterTypes[monsterStats[1] ],
         hp : Math.floor(monsterStats[2] * rating * 1000),
         attack : Math.floor(monsterStats[3] * rating),
         speed : Math.floor(monsterStats[4] * rating),

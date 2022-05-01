@@ -31,7 +31,9 @@ export const getOneTimeLocation =  async ({ setState, setError }: TgetOneTimeLoc
             location.lat = parseFloat(JSON.stringify(position.coords.latitude));
             const permissionAlways = await Permissions.check(PERMISSIONS.IOS.LOCATION_ALWAYS)
             const permissionInUse = await Permissions.check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE)
-            console.log("location", location)
+            if(Platform.OS ==  "android"){
+                setState(location)
+            }
             if (permissionAlways == 'granted') {
                 if (location != { lat: 0, lng: 0 }) {
                     setState(location)
@@ -71,6 +73,9 @@ export const subscribeLocationLocation = async ({ setState, setError, setWatchId
             location.lat = parseFloat(JSON.stringify(position.coords.latitude));
             const permissionAlways = await Permissions.check(PERMISSIONS.IOS.LOCATION_ALWAYS)
             const permissionInUse = await Permissions.check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE)
+
+           
+
             if (permissionAlways == 'granted') {
                 if (location != { lat: 0, lng: 0 }) {
                     setState(location)
@@ -98,10 +103,12 @@ export const subscribeLocationLocation = async ({ setState, setError, setWatchId
 
 export const useLocation = () => {
     const [watchId, setWatchId] = React.useState<number>(-1)
+    const user = authStore;
     const [userLocation, setUserLocation] = React.useState<Tlocation>({
         lat: 0,
         lng: 0
     })
+
     const [error, setError] = React.useState<string>("")
 
     useFocusEffect(
@@ -123,6 +130,7 @@ export const useLocation = () => {
                         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
                             //To Check, If Permission is granted
                             getOneTimeLocation({ setState: setUserLocation, setError: setError })
+                            user.locationEnabledTemp()
                             // subscribeLocationLocation({ setState: setUserLocation, setError: setError, setWatchId: setWatchId })
 
                         } else {

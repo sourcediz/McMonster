@@ -31,7 +31,7 @@ const EnableLocation = () => {
 
        
                             <View style={{ flex: 1}}>
-                                <TouchableOpacity onPress={() => { Linking.openURL('app-settings:passwords'); }} style={{ marginTop: 10 }}>
+                                <TouchableOpacity onPress={() => { Linking.openSettings(); }} style={{ marginTop: 10 }}>
                                     <OutlineButton>
                                         <H5 fontStyle={{ color: COLORS.secondaryLight, textAlign: "center" }} text={"Enable Location Services"} />
                                     </OutlineButton>

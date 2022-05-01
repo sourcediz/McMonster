@@ -1,4 +1,4 @@
-import { StyleProp, StyleSheet, Text, TextStyle, View } from 'react-native'
+import { Platform, StyleProp, StyleSheet, Text, TextStyle, View } from 'react-native'
 import React from 'react'
 import { LAYOUT } from '../../../lib/layout'
 import { COLORS } from '../../../lib/colors'
@@ -12,8 +12,8 @@ type LogoProps = {
 const Logo: React.FC<LogoProps> = ({ size }) => {
   const rem = useRem()
   return (
-    <View style={[LAYOUT.rowAllCenter]}>
-      <Text style={[styles.logoCharStyles,
+    <View style={[LAYOUT.rowAllCenter,{width : "100%",}]}>
+      <Text textBreakStrategy='simple' style={[styles.logoCharStyles,
       {
         letterSpacing: rem(logoSize(size) / -2, true),
         fontSize: rem(logoSize(size))
@@ -32,6 +32,7 @@ const logoSize = (size: TlogoSize): number => {
 
 const styles = StyleSheet.create({
   logoCharStyles: {
+  
     fontWeight: 'bold',
     color: COLORS.secondary,
       textShadowOffset: {

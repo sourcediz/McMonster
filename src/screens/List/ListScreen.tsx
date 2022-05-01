@@ -27,6 +27,7 @@ const ListScreen = () => {
             getMacdonals(userLocation)
                 .then((r) => {
                     const monsters = r.map((place) => {
+                        console.log(place.place_id)
                         const monster = generateMonster(place.place_id, place.rating)
                         monster.location = place.geometry.location
                         monster.address = place.vicinity
@@ -36,6 +37,7 @@ const ListScreen = () => {
                 })
                 .catch((e) => {
                     // setError("Error getting monsters")
+                    console.log("error",e)
                 })
         }
         setLoading(false)
