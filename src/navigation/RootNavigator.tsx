@@ -10,6 +10,7 @@ import Signup from '../screens/Signup/SignupScreen';
 import { COLORS } from '../lib/colors';
 import SingleView from '../screens/SingleView/SingleView';
 import Icon from 'react-native-vector-icons/Ionicons';
+import ProfileScreen from '../screens/Profile/ProfileScreen';
 
 //create root stack and show tabnavigator if authenticated
 const Root = createStackNavigator();
@@ -102,7 +103,7 @@ export const TabNavigator = ()=> {
         <TabStack.Screen  name="Monsters" component={ListScreen} />
         <TabStack.Screen name="Map" component={MapScreen} />
         <TabStack.Screen name="Hunt" component={MapScreen} />
-        <TabStack.Screen name="Profile" component={MapScreen}  />
+        <TabStack.Screen name="Profile" component={ProfileScreen}  />
       </TabStack.Navigator>
   );
 }
