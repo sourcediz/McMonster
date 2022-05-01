@@ -10,11 +10,12 @@ But I didn't get that far.
 # How to start
 1. clone the repo
 2. cd into repo
-3. `yarn`
-4. `cd ios && pod install && cd ..`
-5. add google api key to `./constants/google.ts`
-6. To start ios : `yarn ios-release` 
-7. To start android : `yarn android-release` 
+3. `git checkout master`
+4. `yarn`
+5. `cd ios && pod install && cd ..`
+6. add google api key to `./constants/google.ts`
+7. To start ios : `yarn ios-release` 
+8. To start android : `yarn android-release` 
 
 # Using the app
 1. Don't Login, press the I am a guest button
