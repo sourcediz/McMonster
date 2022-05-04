@@ -1,8 +1,8 @@
-import { create } from 'mobx-persist';
+import {create} from 'mobx-persist';
 // import { AsyncStorage } from 'react-native';
 
-import { observable, action } from 'mobx'
-import { AsyncStorage } from 'react-native'
+import {observable, action} from 'mobx';
+import {AsyncStorage} from 'react-native';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import auth from './userStore';
@@ -14,8 +14,8 @@ const hydrate = create({
 });
 
 class RootStore {
-  @observable hydrated = false
-    
+  @observable hydrated = false;
+
   AuthStore = auth;
   AppDataStore = appData;
 
@@ -23,9 +23,8 @@ class RootStore {
     Promise.all([
       hydrate('auth', this.AuthStore),
       hydrate('apData', this.AppDataStore),
-    ])
-      .then(() => (this.hydrated = true))
+    ]).then(() => (this.hydrated = true));
   }
-};
+}
 
 export default new RootStore();

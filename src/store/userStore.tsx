@@ -1,6 +1,6 @@
-import { action, computed, observable, makeObservable } from 'mobx'
-import { create, persist } from 'mobx-persist'
-import { AsyncStorage } from 'react-native'
+import {action, computed, observable, makeObservable} from 'mobx';
+import {create, persist} from 'mobx-persist';
+import {AsyncStorage} from 'react-native';
 // import AsyncStorage from '@react-native-async-storage/async-storage'
 export class UserObject {
   @persist @observable uid? = '';
@@ -8,8 +8,7 @@ export class UserObject {
   @persist @observable roles? = '';
 }
 
-class Auth { 
-
+class Auth {
   constructor() {
     makeObservable(this);
   }
@@ -24,9 +23,6 @@ class Auth {
   @persist @observable allowedLocation = false;
   @observable allowedLocationTemp = false;
 
-
-
- 
   // @computed get fullName() {
   //   if (!this.user?.firstName) return ''
   //   const names = [this.user.firstName, this.user.lastName].join(' ')
@@ -39,61 +35,57 @@ class Auth {
   // }
 
   @computed get getToken() {
-    return this.authToken
+    return this.authToken;
   }
 
   @computed get getRefreshToken() {
-    return this.refreshToken
+    return this.refreshToken;
   }
-
-
 
   @action
   setAuthToken(token: string) {
-    this.authToken = token
+    this.authToken = token;
   }
 
   @action
-  setOnboarded(flag : boolean) {
-    this.hasObBoarded = flag
+  setOnboarded(flag: boolean) {
+    this.hasObBoarded = flag;
   }
 
   @action
   setCsrfToken(token: string) {
-    this.csrfToken = token
+    this.csrfToken = token;
   }
 
   @action
   setUid(uid: number) {
-    this.uid = uid
+    this.uid = uid;
   }
 
   @action
   setLogoutToken(token: string) {
-    this.logoutToken = token
+    this.logoutToken = token;
   }
 
   @action
   locationEnabled() {
-    console.log("full set")
-    this.allowedLocation = true
+    console.log('full set');
+    this.allowedLocation = true;
   }
   @action
   locationEnabledTemp() {
-    console.log("temp set")
-    this.allowedLocationTemp = true
+    console.log('temp set');
+    this.allowedLocationTemp = true;
   }
-
 
   @action
   logout() {
-      this.authToken = ''
+    this.authToken = '';
     this.csrfToken = '';
     this.hasObBoarded = false;
   }
 }
 
+let authStore = new Auth();
 
-let authStore = new Auth()
-
-export default authStore
+export default authStore;
