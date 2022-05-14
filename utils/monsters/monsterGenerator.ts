@@ -12,15 +12,17 @@ export const findNumbers = (str: string) => {
 
   numbers?.forEach(number => {
     if (number.length > 1) {
-      return number.split('').forEach(num => numbersSplit.push(parseInt(num)));
+      return number
+        .split('')
+        .forEach(num => numbersSplit.push(parseInt(num, 10)));
     }
-    numbersSplit.push(parseInt(number));
+    numbersSplit.push(parseInt(number, 10));
   });
   return numbersSplit;
 };
 
 export const convertLetterToNumber = (letter: string) => {
-  if (letter.length != 1) {
+  if (letter.length !== 1) {
     return 0;
   }
   if (typeof letter !== 'string') {

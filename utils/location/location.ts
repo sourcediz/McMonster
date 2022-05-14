@@ -3,9 +3,8 @@ import React from 'react';
 import {PermissionsAndroid, Platform} from 'react-native';
 import {Tlocation} from '../../globlalTypes';
 import authStore from '../../src/store/userStore';
-import Permissions, {PERMISSIONS, RESULTS} from 'react-native-permissions';
+import Permissions, {PERMISSIONS} from 'react-native-permissions';
 import {useFocusEffect} from '@react-navigation/native';
-import {observer} from 'mobx-react';
 type TgetOneTimeLocationParams = {
   setState: React.Dispatch<React.SetStateAction<Tlocation>>;
   setError: React.Dispatch<React.SetStateAction<string>>;
@@ -37,17 +36,17 @@ export const getOneTimeLocation = async ({
       const permissionInUse = await Permissions.check(
         PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
       );
-      if (Platform.OS == 'android') {
+      if (Platform.OS === 'android') {
         setState(location);
         user.locationEnabled();
       }
-      if (permissionAlways == 'granted') {
-        if (location != {lat: 0, lng: 0}) {
+      if (permissionAlways === 'granted') {
+        if (location !== {lat: 0, lng: 0}) {
           setState(location);
         }
         user.locationEnabled();
-      } else if (permissionInUse == 'granted') {
-        if (location != {lat: 0, lng: 0}) {
+      } else if (permissionInUse === 'granted') {
+        if (location !== {lat: 0, lng: 0}) {
           setState(location);
         }
         user.locationEnabledTemp();
@@ -57,6 +56,7 @@ export const getOneTimeLocation = async ({
     },
     error => {
       setError('Error getting location');
+      console.log(error);
       return;
     },
     {
@@ -84,17 +84,18 @@ export const subscribeLocationLocation = async ({
         const permissionAlways = await Permissions.check(
           PERMISSIONS.IOS.LOCATION_ALWAYS,
         );
+
         const permissionInUse = await Permissions.check(
           PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
+        );
 
-
-        if (permissionAlways == 'granted') {
-          if (location != {lat: 0, lng: 0}) {
+        if (permissionAlways === 'granted') {
+          if (location !== {lat: 0, lng: 0}) {
             setState(location);
           }
           user.locationEnabled();
-        } else if (permissionInUse == 'granted') {
-          if (location != {lat: 0, lng: 0}) {
+        } else if (permissionInUse === 'granted') {
+          if (location !== {lat: 0, lng: 0}) {
             setState(location);
           }
           user.locationEnabledTemp();
@@ -102,6 +103,7 @@ export const subscribeLocationLocation = async ({
       },
       error => {
         setError('Error getting location');
+        console.log(error);
       },
       {
         enableHighAccuracy: false,
@@ -112,8 +114,7 @@ export const subscribeLocationLocation = async ({
 };
 
 export const useLocation = () => {
-  const [watchId, setWatchId] = React.useState<number>(-1);
-  const user = authStore;
+  // const [watchId, setWatchId] = React.useState<number>(-1);
   const [userLocation, setUserLocation] = React.useState<Tlocation>({
     lat: 0,
     lng: 0,
@@ -134,6 +135,8 @@ export const useLocation = () => {
               {
                 title: 'Location Access Required',
                 message: 'This App needs to Access your location',
+                buttonPositive: 'Allow',
+                buttonNegative: 'Deny',
               },
             );
             if (granted === PermissionsAndroid.RESULTS.GRANTED) {
@@ -155,7 +158,7 @@ export const useLocation = () => {
       requestLocationPermission();
 
       return () => {
-        Geolocation.clearWatch(watchId);
+        // Geolocation.clearWatch(watchId);
       };
     }, []),
   );
